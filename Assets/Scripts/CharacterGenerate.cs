@@ -17,8 +17,6 @@ public class CharacterGenerate : MonoBehaviour
         character = GameObject.Find("CharacterMedium");
         delayTime = 5;
         counter = delayTime;
-        newPosition = new Vector3(-10f, 0, 0);
-        newOrientation = Quaternion.AngleAxis(90, Vector3.up);
         idNumerator = 0;
     }
 
@@ -28,20 +26,33 @@ public class CharacterGenerate : MonoBehaviour
         counter -= 1 * Time.deltaTime;
         if(counter <= 0)
         {
-            character = RandomCharacter();
+            RandomCharacter();
             idNumerator++;
             counter = delayTime;
         }
     }
 
-    GameObject RandomCharacter()
+    void RandomCharacter()
     {
-        GameObject randomCharacter = Instantiate(character, newPosition, newOrientation);
+        GameObject randomCharacter = Instantiate(character, RandomPosition(), RandomOrientation());
         randomCharacter.name = "Character" + idNumerator;
-        int random = Mathf.FloorToInt(Random.Range(0, 4));
-        Debug.Log(random);
+        int random = Random.Range(0, 4);
         randomCharacter.transform.Find("characterMedium").GetComponent<SkinnedMeshRenderer>().material = materials[random];
+        
+    }
 
-        return randomCharacter;
+    Vector3 RandomPosition()
+    {
+        float randomPositionX, randomPositionZ;
+        randomPositionX = Random.Range(-10f, 10f);
+        randomPositionZ = Random.Range(-10f, 10f);
+
+        return new Vector3(randomPositionX, 0, randomPositionZ);
+    
+    }
+
+    Quaternion RandomOrientation()
+    {
+        return Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up);
     }
 }
