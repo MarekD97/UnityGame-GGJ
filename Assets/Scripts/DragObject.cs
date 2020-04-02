@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class DragObject : MonoBehaviour
 {
-    public Transform moveThis;
     //the layers the ray can hit
     public LayerMask hitLayers;
 
     void OnMouseDown()
     {
-        moveThis = gameObject.transform;
-        hitLayers = LayerMask.GetMask("Plane");
+    }
+    void OnMouseUp()
+    {
+
     }
     void OnMouseDrag()
     {
@@ -20,7 +21,7 @@ public class DragObject : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, hitLayers))
         {
-            moveThis.transform.position = hit.point;
+            gameObject.transform.position = hit.point;
         }
     }
 }
